@@ -4,8 +4,10 @@ import OrderDetail from "../../admin/OrderDetail";
 import ProductDetail from "../../admin/ProductDetail";
 import { useContext, useState } from "react";
 import myContext from "../../../context/myContext";
+import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("users"));
   const context = useContext(myContext);
   const { getAllProduct, getAllOrder, getAllUser } = context;
@@ -18,7 +20,8 @@ const AdminDashboard = () => {
 
   const logout = () => {
     localStorage.removeItem("users");
-    window.location.href = "/login"; // Redirect to login
+    // window.location.href = "/login"; // Redirect to login
+    navigate("/login");
   };
 
   return (
