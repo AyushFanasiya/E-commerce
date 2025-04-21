@@ -61,17 +61,17 @@ const CartPage = () => {
     }),
   });
 
-  const buyNowFunction = () => {
+  const buyNowFunction = async () => {
     // validation
     if (
-      addressInfo.name === "" ||
-      addressInfo.address === "" ||
-      addressInfo.pincode === "" ||
-      addressInfo.mobileNumber === ""
+      addressInfo.name.trim() === "" ||
+      addressInfo.address.trim() === "" ||
+      addressInfo.pincode.trim() === "" ||
+      addressInfo.mobileNumber.trim() === ""
     ) {
-      return toast.error("All Fields are required");
+      return toast.error("All fields are required");
     }
-
+  
     // Order Info
     const orderInfo = {
       cartItems,
@@ -86,20 +86,32 @@ const CartPage = () => {
         year: "numeric",
       }),
     };
+  
     try {
       const orderRef = collection(fireDB, "order");
-      addDoc(orderRef, orderInfo);
+      await addDoc(orderRef, orderInfo); // Await here
+  
+      // Reset address form with time and date
       setAddressInfo({
         name: "",
         address: "",
         pincode: "",
         mobileNumber: "",
+        time: Timestamp.now(),
+        date: new Date().toLocaleString("en-US", {
+          month: "short",
+          day: "2-digit",
+          year: "numeric",
+        }),
       });
-      toast.success("Order Placed Successfull");
+  
+      toast.success("Order placed successfully!");
     } catch (error) {
       console.log(error);
+      toast.error("Something went wrong. Please try again.");
     }
   };
+  
   return (
     <Layout>
       <div className="container mx-auto px-4 max-w-7xl lg:px-0">
@@ -175,6 +187,7 @@ const CartPage = () => {
                                 type="text"
                                 className="mx-1 h-7 w-9 rounded-md border text-center"
                                 value={quantity}
+                                readOnly
                               />
                               <button
                                 onClick={() => handleIncrement(id)}
