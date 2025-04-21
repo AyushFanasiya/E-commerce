@@ -16,105 +16,77 @@ const Navbar = () => {
 
     const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
-    const navList = (
-        <ul className="flex space-x-4 text-white font-medium text-md px-5 items-center">
-            <li><Link to={'/'}>Home</Link></li>
-            <li><Link to={'/allproduct'}>All Product</Link></li>
-
-            {!user && (
-                <>
-                    <li><Link to={'/signup'}>Signup</Link></li>
-                    <li><Link to={'/login'}>Login</Link></li>
-                </>
-            )}
-
-            {user?.role === "user" && <li><Link to={'/user-dashboard'}>User</Link></li>}
-            {user?.role === "admin" && <li><Link to={'/admin-dashboard'}>Admin</Link></li>}
-
-            {/* Cart Button Styled */}
-            <li>
-                <Link
-                    to={'/cart'}
-                    className="bg-white text-black px-3 py-1 rounded hover:bg-gray-200 transition"
-                >
-                    🛒 Cart ({cartItems.length})
-                </Link>
-            </li>
-        </ul>
-    );
-
     return (
-        <nav className="bg-black sticky top-0 z-50">
-  <div className="flex flex-col lg:flex-row justify-between items-center py-3 px-4 lg:px-6 gap-3">
-    
-    {/* Logo */}
-    <div className="text-center lg:text-left">
-      <Link to="/">
-        <h2 className="font-bold text-white text-2xl">E-commerce</h2>
-      </Link>
-    </div>
+        <nav className="bg-black sticky top-0 z-50 w-full shadow-md">
+            {/* Top Row: Logo, Links, Cart+Profile */}
+            <div className="flex flex-col lg:flex-row items-center justify-between px-4 py-3 lg:px-8 gap-3">
+                
+                {/* Logo */}
+                <Link to="/" className="text-white text-2xl font-bold">
+                    E-commerce
+                </Link>
 
-    {/* Nav Links */}
-    <div className="flex flex-wrap items-center justify-center gap-3">
-      <ul className="flex flex-wrap space-x-4 text-white font-medium text-md items-center">
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/allproduct">All Product</Link></li>
+                {/* Nav Links */}
+                <ul className="flex flex-wrap items-center justify-center gap-4 text-white font-medium text-sm sm:text-base">
+                    <li><Link to="/">Home</Link></li>
+                    <li><Link to="/allproduct">All Product</Link></li>
 
-        {!user && (
-          <>
-            <li><Link to="/signup">Signup</Link></li>
-            <li><Link to="/login">Login</Link></li>
-          </>
-        )}
+                    {!user && (
+                        <>
+                            <li><Link to="/signup">Signup</Link></li>
+                            <li><Link to="/login">Login</Link></li>
+                        </>
+                    )}
 
-        {user?.role === "user" && <li><Link to="/user-dashboard">User</Link></li>}
-        {user?.role === "admin" && <li><Link to="/admin-dashboard">Admin</Link></li>}
+                    {user?.role === "user" && <li><Link to="/user-dashboard">User</Link></li>}
+                    {user?.role === "admin" && <li><Link to="/admin-dashboard">Admin</Link></li>}
+                </ul>
 
-        <li>
-          <Link
-            to="/cart"
-            className="bg-white text-black px-3 py-1 rounded hover:bg-gray-200 transition"
-          >
-            🛒 Cart ({cartItems.length})
-          </Link>
-        </li>
-      </ul>
-    </div>
+                {/* Cart + Profile */}
+                <div className="flex items-center gap-3 relative">
+                    {/* Cart */}
+                    <Link
+                        to="/cart"
+                        className="bg-white text-black px-3 py-1 rounded-md text-sm shadow-sm hover:bg-gray-200 transition"
+                    >
+                        🛒 Cart ({cartItems.length})
+                    </Link>
 
-    {/* Search and Profile */}
-    <div className="flex items-center gap-4 relative">
-      <div className="hidden md:block">
-        <SearchBar />
-      </div>
+                    {/* Profile */}
+                    {user && (
+                        <div className="relative">
+                            <button
+                                onClick={toggleDropdown}
+                                className="bg-white text-black rounded-full w-8 h-8 flex items-center justify-center hover:bg-gray-300 transition"
+                            >
+                                👤
+                            </button>
 
-      {user && (
-        <div className="relative">
-          <button
-            onClick={toggleDropdown}
-            className="text-white text-xl border border-white p-2 rounded-full hover:bg-white hover:text-black transition"
-          >
-            👤
-          </button>
-
-          {dropdownOpen && (
-            <div className="absolute right-0 mt-2 w-44 bg-white rounded shadow-lg z-50 text-sm">
-              <div className="px-4 py-2 border-b text-black capitalize">
-                Role: {user.role}
-              </div>
-              <button
-                onClick={logout}
-                className="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
-              >
-                Logout
-              </button>
+                            {dropdownOpen && (
+                                <div className="absolute right-0 mt-2 w-40 bg-white rounded shadow-lg z-10 text-sm">
+                                    <div className="px-4 py-2 border-b text-black capitalize">
+                                        Role: {user.role}
+                                    </div>
+                                    <button
+                                        onClick={logout}
+                                        className="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
+                                    >
+                                        Logout
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
             </div>
-          )}
-        </div>
-      )}
-    </div>
-  </div>
-</nav>
 
+            {/* Search Bar (inside black navbar) */}
+            <div className="flex justify-center py-2 px-4">
+                <div className="w-full max-w-md">
+                    <SearchBar />
+                </div>
+            </div>
+        </nav>
     );
 };
 
