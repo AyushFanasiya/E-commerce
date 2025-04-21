@@ -73,10 +73,10 @@ const Login = () => {
     <div className="flex justify-center items-center h-screen">
       {loading && <Loader />}
       {/* Login Form  */}
-      <div className="login_Form bg-blue-50 px-8 py-6 border border-blue-100 rounded-xl shadow-md">
+      <div className="login_Form bg-gray-50 px-8 py-6 border border-gray-100 rounded-xl shadow-md">
         {/* Top Heading  */}
         <div className="mb-5">
-          <h2 className="text-center text-2xl font-bold text-blue-500 ">
+          <h2 className="text-center text-2xl font-bold text-black ">
             Login
           </h2>
         </div>
@@ -94,7 +94,7 @@ const Login = () => {
                 email: e.target.value,
               });
             }}
-            className="bg-blue-50 border border-blue-200 px-2 py-2 w-96 rounded-md outline-none placeholder-blue-200"
+            className="bg-gray-50 border border-gray-200 px-2 py-2 w-96 rounded-md outline-none placeholder-black"
           />
         </div>
 
@@ -110,7 +110,7 @@ const Login = () => {
                 password: e.target.value,
               });
             }}
-            className="bg-blue-50 border border-blue-200 px-2 py-2 w-96 rounded-md outline-none placeholder-blue-200"
+            className="bg-gray-50 border border-gray-200 px-2 py-2 w-96 rounded-md outline-none placeholder-black"
           />
         </div>
 
@@ -119,7 +119,7 @@ const Login = () => {
           <button
             type="button"
             onClick={userLoginFunction}
-            className="bg-blue-500 hover:bg-blue-600 w-full text-white text-center py-2 font-bold rounded-md "
+            className="bg-black hover:bg-gray-600 w-full text-white text-center py-2 font-bold rounded-md "
           >
             Login
           </button>
@@ -127,8 +127,8 @@ const Login = () => {
 
         <div>
           <h2 className="text-black">
-            Don't Have an account{" "}
-            <Link className=" text-blue-500 font-bold" to={"/signup"}>
+            Don't Have an account ? {" "}
+            <Link className=" text-black font-bold" to={"/signup"}>
               Signup
             </Link>
           </h2>

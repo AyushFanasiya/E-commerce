@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import Layout from "../../layout/Layout";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import myContext from "../../../context/myContext";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
@@ -56,7 +56,7 @@ const AllProduct = () => {
                                         />
                                         <div className="p-6">
                                             <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">
-                                                E-bharat
+                                                E-commerce
                                             </h2>
                                             <h1 className="title-font text-lg font-medium text-gray-900 mb-3">
                                                 {title.substring(0, 25)}
@@ -72,7 +72,7 @@ const AllProduct = () => {
                                                 ?
                                                 <button
                                                     onClick={() => deleteCart(item)}
-                                                    className=" bg-red-700 hover:bg-pink-600 w-full text-white py-[4px] rounded-lg font-bold">
+                                                    className=" bg-red-600 hover:bg-red-400 w-full text-white py-[4px] rounded-lg font-bold">
                                                     Delete To Cart
                                                 </button>
 
@@ -80,7 +80,7 @@ const AllProduct = () => {
 
                                                 <button
                                                     onClick={() => addCart(item)}
-                                                    className=" bg-pink-500 hover:bg-pink-600 w-full text-white py-[4px] rounded-lg font-bold">
+                                                    className=" bg-red-600 hover:bg-red-400 w-full text-white py-[4px] rounded-lg font-bold">
                                                     Add To Cart
                                                 </button>
                                             }

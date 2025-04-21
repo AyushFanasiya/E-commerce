@@ -1,91 +1,99 @@
 import { Link, useNavigate } from "react-router-dom";
 import SearchBar from "../searchBar/SearchBar";
 import { useSelector } from "react-redux";
-
+import { useState } from "react";
 
 const Navbar = () => {
-    // get user from localStorage 
     const user = JSON.parse(localStorage.getItem('users'));
-
-    // navigate 
     const navigate = useNavigate();
-
-    // logout function 
-    const logout = () => {
-        localStorage.clear('users');
-        navigate("/login")
-    }
-
-    // CartItems
+    const [dropdownOpen, setDropdownOpen] = useState(false);
     const cartItems = useSelector((state) => state.cart);
 
-    // navList Data
+    const logout = () => {
+        localStorage.clear('users');
+        navigate("/login");
+    };
+
+    const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+
     const navList = (
-        <ul className="flex space-x-3 text-white font-medium text-md px-5 ">
-            {/* Home */}
+        <ul className="flex space-x-4 text-white font-medium text-md px-5 items-center">
+            <li><Link to={'/'}>Home</Link></li>
+            <li><Link to={'/allproduct'}>All Product</Link></li>
+
+            {!user && (
+                <>
+                    <li><Link to={'/signup'}>Signup</Link></li>
+                    <li><Link to={'/login'}>Login</Link></li>
+                </>
+            )}
+
+            {user?.role === "user" && <li><Link to={'/user-dashboard'}>User</Link></li>}
+            {user?.role === "admin" && <li><Link to={'/admin-dashboard'}>Admin</Link></li>}
+
+            {/* Cart Button Styled */}
             <li>
-                <Link to={'/'}>Home</Link>
-            </li>
-
-            {/* All Product */}
-            <li>
-                <Link to={'/allproduct'}>All Product</Link>
-            </li>
-
-            {/* Signup */}
-            {!user ? <li>
-                <Link to={'/signup'}>Signup</Link>
-            </li> : ""}
-
-            {/* Signup */}
-            {!user ? <li>
-                <Link to={'/login'}>Login</Link>
-            </li> : ""}
-
-            {/* User */}
-            {user?.role === "user" && <li>
-                <Link to={'/user-dashboard'}>User</Link>
-            </li>}
-
-            {/* Admin */}
-            {user?.role === "admin" && <li>
-                <Link to={'/admin-dashboard'}>Admin</Link>
-            </li>}
-
-            {/* logout */}
-            {user && <li className=" cursor-pointer" onClick={logout}>
-                logout
-            </li>}
-
-            {/* Cart */}
-            <li>
-                <Link to={'/cart'}>
-                    Cart({cartItems.length})
+                <Link
+                    to={'/cart'}
+                    className="bg-white text-black px-3 py-1 rounded hover:bg-gray-200 transition"
+                >
+                    🛒 Cart ({cartItems.length})
                 </Link>
             </li>
         </ul>
-    )
+    );
+
     return (
-        <nav className="bg-pink-600 sticky top-0">
-            {/* main  */}
-            <div className="lg:flex lg:justify-between items-center py-3 lg:px-3 ">
-                {/* left  */}
-                <div className="left py-3 lg:py-0">
+        <nav className="bg-black sticky top-0 z-50">
+            <div className="lg:flex lg:justify-between items-center py-3 lg:px-6 px-4">
+                {/* Logo */}
+                <div className="py-3 lg:py-0">
                     <Link to={'/'}>
-                        <h2 className=" font-bold text-white text-2xl text-center">E-commerce</h2>
+                        <h2 className="font-bold text-white text-2xl text-center">E-commerce</h2>
                     </Link>
                 </div>
 
-                {/* right  */}
-                <div className="right flex justify-center mb-4 lg:mb-0">
+                {/* Nav Links */}
+                <div className="flex flex-wrap items-center justify-center gap-3">
                     {navList}
                 </div>
 
-                {/* Search Bar  */}
-                <SearchBar />
+                {/* Right Side: Search + Profile */}
+                <div className="flex items-center gap-4 mt-4 lg:mt-0 relative">
+                    {/* SearchBar */}
+                    <div className="hidden md:block">
+                        <SearchBar />
+                    </div>
+
+                    {/* Profile Dropdown */}
+                    {user && (
+                        <div className="relative">
+                            <button
+                                onClick={toggleDropdown}
+                                className="text-white text-xl bg-white p-2 rounded-full hover:bg-gray-700 transition"
+                            >
+                                👤
+                            </button>
+
+                            {dropdownOpen && (
+                                <div className="absolute right-0 mt-2 w-40 bg-white rounded shadow-lg z-10 text-sm">
+                                    <div className="px-4 py-2 border-b text-black capitalize">
+                                        Role: {user.role}
+                                    </div>
+                                    <button
+                                        onClick={logout}
+                                        className="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
+                                    >
+                                        Logout
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
             </div>
         </nav>
     );
-}
+};
 
 export default Navbar;
